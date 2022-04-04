@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hello World!</title>
+  <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+</head>
+
+<body>
+  <script>
+    // const { createWorker } = require('tesseract.js');
+    const path = require('path');
+
+    // const worker = createWorker({
+    //   cachePath: path.join(__dirname, 'lang-data'),
+    //   logger: m => console.log(m),
+    // });
+
+    // const moment = require('moment');
+
+    // console.log(moment(new Date()).format('hh:mm'))
+    // (async () => {
+    //   await worker.load();
+    //   await worker.loadLanguage('Japanese');
+    //   await worker.initialize('Japanese');
+    //   const { data: { text } } = await worker.recognize(path.join(__dirname, 'images', 'ocr16.png'));
+    //   console.log(text);
+    //   await worker.terminate();
+    // })();
+    var edge = require('edge');
+    var input = ['Printer', 'TagPrinter', 'Scanner'];
+    var getPrinter = edge.func({
+      source: function () {/*
+      using IdrFormEngine;
+      using System;
+      using System.Threading.Tasks;
+
+          public class StartUp
+          {
+              private IEngine en = null;
+
+              public async Task<object> Invoke(object input)
+              {
+                  var result = string.Empty;
+                  en = EngineFactory.GetEngine();
+                  if (en == null)
+                  {
+                    result = "Loi cmnr";
+                  }
+                  else
+                  {
+                    result = "Pass cmnr";
+                  }
+                  IFormatList FormatList;
+                  IFormat Format;
+                  IField Field;
+                  return result;
+              }
+          }
+    */},
+      references: [
+        path.join(__dirname, 'lib', 'IdrFormEngine.dll'),]
+    });
+
+    // var getPrinter = edge.func({
+    //   assemblyFile: path.join(__dirname, 'lib', 'OcrPanasonic.dll'),
+    //   typeName: "OcrPanasonic.StartUp",
+    //   methodName: "Invoke",
+    //   // references: [
+    //   //   path.join(__dirname, 'lib', 'IdrFormEngine.dll')
+    //   // ]
+    // });
+
+    getPrinter(input, function (err, result) {
+      if (err) throw err;
+      console.log(result);
+    });
+
+  </script>
+</body>
+
+</html>
